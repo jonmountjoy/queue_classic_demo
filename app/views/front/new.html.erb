@@ -1,0 +1,63 @@
+<h1>Queue Classic Demo</h1>
+<p>Use this form to enter new data, which will form the basis of the queued job:</p>
+
+<%= form_tag(go_path, method: 'get') do  %>
+  <%= text_field_tag(:email) %>
+  <%= submit_tag 'Send' %>
+<% end %>
+
+<div id="result"></div>
+
+<%= javascript_tag do %>
+
+$( function() {
+
+  function sendJobForm(event) {
+    event.preventDefault();
+    var $form = $(this),
+        $submit = $form.find('input[type=submit]'),
+        $result = $('#result');
+
+    function output(msg) { $submit.val(msg) }
+    function jobFinished(jobResult) {
+      $submit.val('Send').removeAttr('disabled');
+      $result.html(jobResult);
+    }
+
+    function pollJob(jobId, successCallback) {
+      function poll() {
+        var pollEvery = 2000; // seconds
+        $.ajax({
+          type: "GET",
+          url: "/front/fetch/" + jobId, // coupled to your app's routes
+          dataType: 'text',
+          statusCode: {
+            200: function(data) { successCallback(data); },
+            202: function(data) { setTimeout(poll, pollEvery); },
+            500: function(data) { output('Error!'); }
+          }
+        });
+      };
+      poll();
+    }
+
+    $submit.attr('disabled', true);
+    output('Sending');
+    $.ajax({
+      type: "POST",
+      url: $form.attr('action'),
+      data: $form.serialize(),
+      dataType: 'json',
+      success: function(data) {
+        output('Job queued, waiting...');
+        pollJob(data.jobId, jobFinished);
+      }
+    });
+
+  }
+  $('form').submit(sendJobForm);
+  $('input[type=text]').focus();
+
+});
+
+<% end %>

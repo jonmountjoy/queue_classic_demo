@@ -1,4 +1,9 @@
 QueueClassicDemo::Application.routes.draw do
+
+  get "front/new"
+  get 'front/fetch/:counter' => 'front#fetch', :as => :fetch
+  match '/front/create(/:email)' => 'front#create' , :as => :go
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +53,7 @@ QueueClassicDemo::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'front#new'
 
   # See how all your routes lay out with "rake routes"
 

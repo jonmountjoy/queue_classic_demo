@@ -11,3 +11,4 @@ coverage.data
 /vendor/ruby/*config/database.yml
 .env
 sql.log
+dump.rdb

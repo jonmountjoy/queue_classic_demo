@@ -10,6 +10,7 @@ gem 'pg'
 gem 'thin'
 gem 'psych'
 gem 'queue_classic'
+gem 'redis'
 
 
 # Gems used only for assets and not required
