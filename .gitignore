@@ -1,0 +1,13 @@
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/**/*
+.rvmrc
+coverage
+public/system/*
+.DS_Store
+external_authors/*
+coverage.data
+/vendor/ruby/*config/database.yml
+.env
+sql.log
