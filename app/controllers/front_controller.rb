@@ -1,17 +1,17 @@
 class FrontController < ApplicationController
 
-  # display's the form, allowing someone to submit a job
+  # displays the form, allowing someone to submit a job
   def new
   end
 
-  # get's called from the form to enqueue a new job
+  # gets called from the form to enqueue a new job
   def create
     arg = params[:email]
     counter = Job.enqueue(arg)
     render :status => :accepted, :json => { jobId: counter }
   end
 
-  # get's called from the form in the polling
+  # gets called from the form in the polling
   def fetch
     counter = params[:counter]
     if Job.isDone?(counter)
