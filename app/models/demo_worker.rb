@@ -1,6 +1,6 @@
 require 'erb'
 
-class DemoWorker
+class DemoWorker < QC::Worker
 
   # Do some work. The counter will be set when a Job is enqueued
   def DemoWorker.work(counter,arguments)
